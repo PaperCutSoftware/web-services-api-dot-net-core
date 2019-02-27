@@ -1922,9 +1922,9 @@ namespace Papercut
         ///  The name of the user with the account to credit.
         /// </param>
         ///
-        public void SetUserAccountSelectionAutoChargePersonal(string username)
+        public void SetUserAccountSelectionAutoChargePersonal(string username, bool withPopupConfirmation)
         {
-            _proxy.SetUserAccountSelectionAutoChargePersonal(_authToken, username);
+            _proxy.SetUserAccountSelectionAutoChargePersonal(_authToken, username, withPopupConfirmation);
         }
 
         /// <summary>
