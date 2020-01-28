@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "PSPaperCut": {
+      "commandName": "Executable",
+      "executablePath": "pwsh",
+      "commandLineArgs": "-noprofile -noexit -command & {ipmo .\\PSPaperCut.psd1; $s = Connect-PaperCutServer -Server 'localhost' -Port 9191 -AuthToken 'test'; $s.UserExists('test')}"
+    }
+  }
+}
