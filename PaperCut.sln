@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperCut", "PaperCut\PaperC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSPaperCut", "PSPaperCut\PSPaperCut.csproj", "{9A47D4EC-E292-425B-AAEF-1F5D31595C91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{9A47D4EC-E292-425B-AAEF-1F5D31595C91}.Release|x64.Build.0 = Release|Any CPU
 		{9A47D4EC-E292-425B-AAEF-1F5D31595C91}.Release|x86.ActiveCfg = Release|Any CPU
 		{9A47D4EC-E292-425B-AAEF-1F5D31595C91}.Release|x86.Build.0 = Release|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Debug|x64.Build.0 = Debug|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Debug|x86.Build.0 = Debug|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Release|x64.ActiveCfg = Release|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Release|x64.Build.0 = Release|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F9A1E05-65C7-4071-90A8-5E4EED0BAD33}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
