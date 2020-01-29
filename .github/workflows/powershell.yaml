@@ -1,0 +1,55 @@
+name: PowerShell Module
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    # doesn't matter which OS
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+    - name: dotnet publish
+      run: dotnet publish PSPaperCut --configuration Release
+    - name: Upload Module Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: PSPaperCut
+        path: ./PSPaperCut/bin/Release/netstandard2.0/publish
+
+  pwsh:
+    name: PowerShell Core
+
+    needs: build
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macOS-latest]
+
+    steps:
+    - name: Download Module Artifacts
+      uses: actions/download-artifact@v1
+      with:
+        name: PSPaperCut
+    - name: PowerShell Core Import-Module
+      run: Import-Module ./PSPaperCut
+      shell: pwsh
+
+  powershell:
+    name: Windows PowerShell
+
+    needs: build
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Download Module Artifacts
+      uses: actions/download-artifact@v1
+      with:
+        name: PSPaperCut
+    - name: Windows PowerShell Import-Module
+      run: Import-Module ./PSPaperCut
+      shell: powershell

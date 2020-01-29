@@ -1,0 +1,41 @@
+name: Library
+
+on: [push]
+
+jobs:
+  build:
+    name: Build and upload
+
+    runs-on: windows-latest
+    # doesn't matter which OS
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+    - name: Build PaperCut
+      run: dotnet build PaperCut --configuration Release
+    - name: Publish PaperCut
+      run: dotnet publish PaperCut --configuration Release
+    - name: Upload Library Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: PaperCut 
+        path: ./PaperCut/bin/Release/netstandard2.0/publish
+
+  example:
+    name: Run Example
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+    - name: Build Example
+      run: dotnet build Example --configuration Release 
+    - name: Run Example
+      run: dotnet run --project Example
