@@ -2,7 +2,7 @@ using System.Management.Automation;
 
 [Cmdlet("Connect","PaperCutServer")]
 [OutputType(typeof(ServerCommandProxy))]
-public class TestSampleCmdletCommand : PSCmdlet
+public class ConnectPaperCutServerCommand : PSCmdlet
 {
     [Parameter(
         Mandatory = true,
@@ -12,10 +12,9 @@ public class TestSampleCmdletCommand : PSCmdlet
     public string Server { get; set; }
 
     [Parameter(
-        Mandatory = true,
         Position = 1,
         ValueFromPipelineByPropertyName = true)]
-    public int Port { get; set; }
+    public int Port { get; set; } = 9191;
 
     [Parameter(
         Mandatory = true,
