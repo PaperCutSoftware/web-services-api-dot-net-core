@@ -44,7 +44,7 @@ For example (note this example must have no additional line breaks inserted afte
 
     should, in older releases, be
 
-            _serverProxy = new ServerCommandProxy(server, 9191, authToken);
+        _serverProxy = new ServerCommandProxy(server, 9191, authToken);
 
 11. Compile and run using the command
 
