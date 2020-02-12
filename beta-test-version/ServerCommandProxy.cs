@@ -7,7 +7,7 @@ using CookComputing.XmlRpc;
 ///  This is an XML-RPC interface to expose the server's APIs.  Used by the standard ServerCommandProxy class below.
 /// </summary>
 #pragma warning disable 1591
-
+namespace PaperCut {
 public interface IServerCommandProxy : IXmlRpcProxy {
 
 	[XmlRpcMethod("api.isUserExists")]
@@ -2135,4 +2135,5 @@ public struct GetGroupQuotaResponse {
 public  struct GetTaskStatusResponse {
 	public bool completed;
 	public string message;
+}
 }

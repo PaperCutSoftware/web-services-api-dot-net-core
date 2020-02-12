@@ -6,22 +6,22 @@
  * for all available commands.
  */
 using System;
-using CookComputing.XmlRpc;
-
+using CookComputing.XmlRpc; // So we can process XmlRpcFaultException
+using PaperCut;
 public class Example {
 
-    static ServerCommandProxy _serverProxy;
+    private static PaperCut.ServerCommandProxy _serverProxy;
 
     public static void Main() {
 
         // This should be the value defined in the advanced config key auth.webservices.auth-token. Change as appropriate.
-        string authToken = "token";
-        string user      = "test-user-account";
-        string account   = "test-shared-account";
-        string server    = "localhost";
+        const string authToken = "token";
+        const string user      = "test-user-account";
+        const string account   = "test-shared-account";
+        const string server    = "localhost";
 
         // Create an instance of the server command proxy class.
-        _serverProxy = new ServerCommandProxy(server, 9191, authToken);
+        _serverProxy = new PaperCut.ServerCommandProxy(server, 9191, authToken);
 
         UserExample(user);
         SharedAccountExample(user, account);

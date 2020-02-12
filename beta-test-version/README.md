@@ -37,6 +37,15 @@ For example (note this example must have no additional line breaks inserted afte
 
 10. Edit the `Program.cs` file so the correct security token (`Zuj0hiazoo5hahwa` in the above example) is used.
 
+    NOTE: In versions of PaperCut MF/NG prior to 19.2.3 the PaperCut namespace was not used.
+    So for instance
+
+        _serverProxy = new PaperCut.ServerCommandProxy(server, 9191, authToken);
+
+    should, in older releases, be
+
+            _serverProxy = new ServerCommandProxy(server, 9191, authToken);
+
 11. Compile and run using the command
 
         dotnet run
