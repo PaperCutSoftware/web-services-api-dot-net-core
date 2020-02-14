@@ -12,13 +12,8 @@ Support for the PaperCut Web Services API using .NET Core
 
   * No chnages required as proposed lib uses same interface and name space (it's a port of the Cook lib to .NET Core)
 
-3. Add missing API updates to command proxy
+3. ~~Add missing API updates to command proxy~~
 
-4. Create supporting docs
+4. ~~Create supporting docs~~
 
-## TODO
-
-* Add Contributing guidelines
-* Flesh out what and why
-* Start creating tasks
-* Write some helpfule docs on how to get involved
+5. Create a PowerShell module
