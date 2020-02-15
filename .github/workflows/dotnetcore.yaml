@@ -24,7 +24,7 @@ jobs:
         path: ./PaperCut/bin/Release/netstandard2.0/publish
 
   example:
-    name: Run Example
+    name: Build Example
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -39,3 +39,4 @@ jobs:
       run: dotnet build Example --configuration Release 
     - name: Run Example
       run: dotnet run --project Example
+      if: false # There isn't a PaperCut server to connect to, so this will always fail.
