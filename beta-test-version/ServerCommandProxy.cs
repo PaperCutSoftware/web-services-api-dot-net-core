@@ -3,11 +3,11 @@
  */
 using CookComputing.XmlRpc;
 
+#pragma warning disable 1591
+namespace PaperCut {
 /// <summary>
 ///  This is an XML-RPC interface to expose the server's APIs.  Used by the standard ServerCommandProxy class below.
 /// </summary>
-#pragma warning disable 1591
-namespace PaperCut {
 public interface IServerCommandProxy : IXmlRpcProxy {
 
 	[XmlRpcMethod("api.isUserExists")]
@@ -907,8 +907,8 @@ public class ServerCommandProxy {
 	/// <summary>
 	///  Export user data based on a set of predefined CSV reports (The owner of these files will be the system account running the PaperCut process)
 	/// </summary>
-	//
-	/// <param name="userName">
+	///
+	/// <param name="username">
 	///  The user name of interest
 	/// </param>
 	/// <param name="saveLocation">
