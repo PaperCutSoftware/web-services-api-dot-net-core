@@ -1,13 +1,14 @@
 /*
- * (c) Copyright 1999-2012 @copyright.owner@.
+ * (c) Copyright 1999-2020 PaperCut Software International Pty Ltd.
  */
 using CookComputing.XmlRpc;
 
+
+#pragma warning disable 1591
+namespace PaperCut {
 /// <summary>
 ///  This is an XML-RPC interface to expose the server's APIs.  Used by the standard ServerCommandProxy class below.
 /// </summary>
-#pragma warning disable 1591
-namespace PaperCut {
 public interface IServerCommandProxy : IXmlRpcProxy {
 
 	[XmlRpcMethod("api.isUserExists")]
@@ -231,7 +232,7 @@ public interface IServerCommandProxy : IXmlRpcProxy {
 	[XmlRpcMethod("api.setPrinterProperties")]
 	bool SetPrinterProperties(string authToken, string serverName, string printerName, string[,] propertyNamesAndValues);
 
-	[XmlRpcMethod("api.applyDeviceSettimgs")]
+	[XmlRpcMethod("api.applyDeviceSettings")]
 	bool ApplyDeviceSettings(string authToken, string deviceName);
 
 	[XmlRpcMethod("api.listPrinters")]
@@ -284,7 +285,7 @@ public interface IServerCommandProxy : IXmlRpcProxy {
 	string[] GetUserGroups(string authToken, string userName);
 
 	[XmlRpcMethod("api.getGroupMembers")]
-	string[] GetGroupMembers(string authToken, string groupName);
+	string[] GetGroupMembers(string authToken, string groupName, int offset, int batchSize);
 
 	[XmlRpcMethod("api.isGroupExists")]
 	bool GroupExists(string authToken, string groupName);
@@ -862,11 +863,14 @@ public class ServerCommandProxy {
 
 	/// <summary>
 	/// Delete/remove an existing user from the user list. Use this method with care.  Calling this will
-	/// perminantly delete the user account from the user list (print and transaction history records remain).
+	/// permanently delete the user account from the user list (print and transaction history records remain).
 	/// </summary>
 	///
 	/// <param name="username">
-	///  The username of the user to delete/remove.
+	/// 	The username of the user to delete/remove.
+	/// </param>
+	/// <param name="redactUserData">
+	///  	If true, in addition to deletion permanently redact user data (default false)
 	/// </param>
 	public void DeleteExistingUser(string username, bool redactUserData=false) {
 		_proxy.DeleteExistingUser(_authToken, username, redactUserData);
@@ -878,7 +882,7 @@ public class ServerCommandProxy {
 	/// using <see cref="SetUserProperty" /> or <see cref="SetUserProperties" />.
 	/// </summary>
 	///
-	/// <param name="username">
+	/// <param name="userName">
 	///  (required) A unique username.  An exception is thrown if the username already exists.
 	/// </param>
 	/// <param name="password">
@@ -907,7 +911,6 @@ public class ServerCommandProxy {
 	/// <summary>
 	///  Export user data based on a set of predefined CSV reports (The owner of these files will be the system account running the PaperCut process)
 	/// </summary>
-	//
 	/// <param name="userName">
 	///  The user name of interest
 	/// </param>
@@ -915,8 +918,8 @@ public class ServerCommandProxy {
 	///  Location on the PaperCut MF/NG application server to export CSV reports to.
 	///  The system account running the PaperCut process must have write permissions to this location.
 	/// </param>
-	public void ExportUserDataHistory(string username, string saveLocation){
-		_proxy.ExportUserDataHistory(_authToken, username, saveLocation);
+	public void ExportUserDataHistory(string userName, string saveLocation){
+		_proxy.ExportUserDataHistory(_authToken, userName, saveLocation);
 	}
 
 	/// <summary>
@@ -945,17 +948,51 @@ public class ServerCommandProxy {
 	/// <returns>
 	///  The matching user name, or an empty string if there was no match.
 	/// </returns>
-	public string LookUpUserNameByCardNo(string cardNo) {
-		return _proxy.LookUpUserNameByCardNo(_authToken, cardNo);
+	public string LookUpUserNameByCardNo( string cardNo) {
+		return _proxy.LookUpUserNameByCardNo( _authToken, cardNo);
 	}
 
 	
-	public string LookUpUserNameByEmail(string email){
+	/// <summary>
+	///  Looks up the user with the primary email address and returns their user name.  If no match was found an empty
+	///  string is returned.
+	/// </summary>
+	///
+	/// <param name="email">
+	///  The user's primary email to look up.
+	/// </param>
+	/// <returns>
+	///  The matching user name, or an empty string if there was no match.
+	/// </returns>
+	public string LookUpUserNameByEmail(string email) {
 		return _proxy.LookUpUserNameByEmail( _authToken, email);
 	}
+
+	/// <summary>
+	///  Looks up the user with the given alias (secondary username) and returns their user name.  If no match was found an empty
+	///  string is returned.
+	/// </summary>
+	///
+	/// <param name="secondaryUserName">
+	///  The user alias to look up.
+	/// </param>
+	/// <returns>
+	///  The matching user name, or an empty string if there was no match.
+	/// </returns>
 	public string LookUpUserNameBySecondaryUserName(string secondaryUserName){
 		return  _proxy.LookUpUserNameBySecondaryUserName( _authToken, secondaryUserName);
 	}
+	/// <summary>
+	///  Looks up all the users with the given full names and returns their user names.  If no match was found an empty
+	///  string is returned.
+	/// </summary>
+	///
+	/// <param name="fullName">
+	///  The user full name to look up. Note: Full names don't have to be unique
+	/// </param>
+	/// <returns>
+	///  A list of matching usernames, or an empty string if there was no match.
+	/// </returns>
 	public string[] LookUpUsersByFullName(string fullName){
 		return _proxy.LookUpUsersByFullName( _authToken, fullName);
 	}
@@ -1119,12 +1156,8 @@ public class ServerCommandProxy {
 	/// <returns>
 	///  An array of shared accounts names the user has access to.
 	/// </returns>
-	public string[] ListUserSharedAccounts(string username, int offset, int limit, bool ignoreAccountMode) {
-		return _proxy.ListUserSharedAccounts(_authToken, username, offset, limit, ignoreAccountMode);
-	}
-
-	public string[] ListUserSharedAccounts(string username, int offset, int limit) {
-		return _proxy.ListUserSharedAccounts(_authToken, username, offset, limit, false);
+	public string[] ListUserSharedAccounts( string username, int offset, int limit, bool ignoreAccountMode =  false) {
+		return _proxy.ListUserSharedAccounts( _authToken, username, offset, limit, ignoreAccountMode);
 	}
 
 	/// <summary>
@@ -1724,13 +1757,15 @@ public class ServerCommandProxy {
 	}
 
 	/// <summary>
-	/// Retrive all users in group.
+	/// Retrive users in group.
 	/// </summary>
 	/// <param name="groupName">The group to look up</param>
+	/// <param name="offset"> The 0-index offset in the list of users to return.  I.e. 0 is the first users, 1 is the second, etc</param>
+	/// <param name="batchSize">The number of users to return in this batch.  Recommended: 1000.</param>
 	/// <returns>An array of User Names in the group</returns>
-	public string[] GetGroupMembers(string groupName)
+	public string[] GetGroupMembers(string groupName, int offset, int batchSize)
 	{
-		return _proxy.GetGroupMembers(_authToken, groupName);
+		return _proxy.GetGroupMembers(_authToken, groupName, offset, batchSize);
 	}
 
 	/// <summary>
@@ -2103,20 +2138,62 @@ public class ServerCommandProxy {
 				allowPinCode, allowPrintingAsOtherUser, chargeToPersonalWhenSharedSelected, defaultSharedAccount);
 	}
 
-
-	public void SetUserAccountSelectionAdvancedPopup(string authToken, string userName, bool allowPersonal,
+/// <summary>
+///   Change a user's account selection setting to use the advanced account selection pop-up.
+/// </summary>
+///
+/// <param name="userName">
+///   The user's username
+/// </param>
+/// <param name="allowPersonal">
+///    Allow user to charge to personal account
+/// </param>
+/// <param name="chargeToPersonalWhenSharedSelected">
+///   true if charge to personal and allocate to shared account.
+/// </param>
+/// <param name="defaultSharedAccount">
+///   The default shared account (optional)
+/// </param>
+	public void SetUserAccountSelectionAdvancedPopup(string userName, bool allowPersonal,
             bool chargeToPersonalWhenSharedSelected, string defaultSharedAccount=""){
-				_proxy.SetUserAccountSelectionAdvancedPopup(authToken, userName, allowPersonal, chargeToPersonalWhenSharedSelected, defaultSharedAccount);
+				_proxy.SetUserAccountSelectionAdvancedPopup( _authToken, userName, allowPersonal, chargeToPersonalWhenSharedSelected, defaultSharedAccount);
 			}
 	
-	public bool GenerateScheduledReport(string authToken, string reportTitle, string saveLocation) {
-		return _proxy.GenerateScheduledReport(authToken, reportTitle, saveLocation);
+	/// <summary>
+	///		Generate a specified scheduled report
+	/// </summary>
+	///
+	/// <param name="reportTitle">
+	///		the title of the report
+	/// </param>
+	/// <param name="saveLocation">
+	///	 the location on the server to save the report to
+	///	</param>
+	public bool GenerateScheduledReport( string reportTitle, string saveLocation) {
+		return _proxy.GenerateScheduledReport( _authToken, reportTitle, saveLocation);
 	}
 
-	public bool GenerateAdHocReport(string authToken, string reportType, string dataParams, string exportTypeExt, string reportTitle, string saveLocation) {
-		return _proxy.GenerateAdHocReport( authToken, reportType, dataParams, exportTypeExt, reportTitle, saveLocation);
+	/// <summary>
+	/// 	Generates an AdHoc report
+	/// </summary>
+	/// <param name="reportType">
+	///		The type of report
+	///	</param>
+	/// <param name="dataParams">
+	///		The data parameters for the report
+	///	</param>
+	/// <param name="exportTypeExt">
+	///		The export format
+	///	</param>
+	/// <param name="reportTitle">
+	///		The prefix of the report title
+	///	</param>
+	/// <param name="saveLocation">
+	///		A file path of where to save the report on the server
+	///	</param>
+	public bool GenerateAdHocReport( string reportType, string dataParams, string exportTypeExt, string reportTitle, string saveLocation) {
+		return _proxy.GenerateAdHocReport( _authToken, reportType, dataParams, exportTypeExt, reportTitle, saveLocation);
 	}
-
 
 }
 

@@ -23,7 +23,7 @@ To compile the example with the Microsoft .NET Core SDK use the following guidel
         dotnet new console
 
 4. Install an XML-RPC library. We are using Kveer.XmlRPC which uses the CookComputing.XmlRpc namespace
-(see .NET Foundation notes below)
+(see .NET Framework notes below)
 
         dotnet add package Kveer.XmlRPC --version 1.1.1
 
@@ -37,15 +37,6 @@ For example (note this example must have no additional line breaks inserted afte
 
 10. Edit the `Program.cs` file so the correct security token (`Zuj0hiazoo5hahwa` in the above example) is used.
 
-    NOTE: In versions of PaperCut MF/NG prior to 19.2.3 the PaperCut namespace was not used.
-    So for instance
-
-        _serverProxy = new PaperCut.ServerCommandProxy(server, 9191, authToken);
-
-    should, in older releases, be
-
-        _serverProxy = new ServerCommandProxy(server, 9191, authToken);
-
 11. Compile and run using the command
 
         dotnet run
@@ -53,9 +44,9 @@ For example (note this example must have no additional line breaks inserted afte
 For more information on using the .NET Core command line tool and deployment options see
 https://docs.microsoft.com/en-us/dotnet/core/tutorials/cli-create-console-app
 
-## Running the sample code on .NET Foundation.
+## Running the sample code on .NET Framework.
 
-The same example code can be build and run on the lagacy .NET Foundation framework using the original
+The same example code can be build and run on the lagacy .NET Framework framework using the original
 Cook Computing XML RPC library (see https://www.nuget.org/packages/xmlrpcnet/). Note however this library version is
 no longer maintained.
 
